@@ -4,7 +4,7 @@ import {
     getFromStorage,
     removeFromStorage,
     setInStorage,
-} from "../../utils/localStorage";
+} from "../utils/localStorage";
 
 function PlayerCard({ opposingBet, selectedPlayers }) {
     const [newSelectedPlayers, setNewSelectedPlayers] = useState([

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { getFromStorage } from "../utils/localStorage";
-import PLayerCard from "../components/PlayerCard/PlayerCard";
+import PLayerCard from "./PlayerCard";
 
 class OpposingBet extends Component {
     state = {
