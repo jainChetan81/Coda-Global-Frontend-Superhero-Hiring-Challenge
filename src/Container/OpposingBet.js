@@ -78,7 +78,7 @@ class OpposingBet extends Component {
             return (
                 <h3 className="text-center">
                     You Need exact 9 names for placing bets Go Back to{" "}
-                    <Link to="Dashboard">DashBoard</Link>
+                    <Link to="/">DashBoard</Link>
                 </h3>
             );
         return (

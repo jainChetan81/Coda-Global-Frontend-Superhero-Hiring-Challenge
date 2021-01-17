@@ -1,11 +1,16 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>,
+    <Router basename="/">
+        <Suspense
+            fallback={
+                <div className="text-center m-5 text-uppercase">Loading...</div>
+            }>
+            <App />
+        </Suspense>
+    </Router>,
     document.getElementById("root")
 );

@@ -2,7 +2,7 @@ import Dashboard from "../Container/Dashboard";
 import OpposingBet from "../Container/OpposingBet";
 const routes = [
     {
-        path: "Dashboard",
+        path: "/",
         name: "Dashboard",
         component: Dashboard,
         layout: "/",
