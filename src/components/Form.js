@@ -1,15 +1,15 @@
 import React from "react";
-const Form = (props) => (
+const Form = ({ getPlayers }) => (
     <form
         onSubmit={(e) => {
             e.preventDefault();
-            props.getNews(e);
+            getPlayers(e);
         }}
         style={{ marginBottom: "2rem" }}>
         <input
             className="form__input"
             type="text"
-            name="news"
+            name="playerName"
             placeholder="Press Enter to search"
         />
         <button className="form__button">Search</button>

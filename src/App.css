@@ -18,6 +18,7 @@ button:focus {
 .App {
     text-align: center;
     position: relative;
+    flex: 1;
 }
 .videoSidebar__button {
     margin-right: 10px !important;

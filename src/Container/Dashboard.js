@@ -1,84 +1,58 @@
+import { Grid, Paper } from "@material-ui/core";
 import React, { Component } from "react";
-import NewsList from "../components/NewsList";
-import axios from "axios";
-import Form from "../components/Form";
-import Spinner from "../components/Spinner/Spinner";
-export default class App extends Component {
-    state = {
-        news: [],
-        loading: true,
-        filteredNews: [],
-        searchString: "",
-    };
-
-    async componentDidMount() {
-        this.getNewsItems();
+import Players from "../components/Players";
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { selectedPlayers: [] };
+        this.addPlayer = this.addPlayer.bind(this);
+        this.removePlayer = this.removePlayer.bind(this);
     }
-
-    getNews = (e) => {
-        e.preventDefault();
-        const newsName = e.target.elements.news.value;
-        const filteredNews = this.state.news.filter((e) => {
-            return e.story.headline
-                .trim()
-                .replace(/\s+/g, "")
-                .toLowerCase()
-                .includes(newsName.trim().replace(/\s+/g, "").toLowerCase());
-        });
-
-        const filteredArray = [...filteredNews];
+    addPlayer(player) {
+        console.log("this.state.selectedPlayers", this.state.selectedPlayers);
+        const newList = [...this.state.selectedPlayers, player];
         this.setState({
-            loading: false,
-            filteredNews: [...filteredArray],
-            searchString: newsName,
+            selectedPlayers: [...newList],
         });
-    };
-
-    getNewsItems() {
-        console.log("getNewsItems");
-        axios
-            .get(
-                "https://nl-static-site-assets.s3.ap-south-1.amazonaws.com/reports.json"
-            )
-            .then((res) => {
-                let updatedNews = [];
-                console.log("res.data", res.data);
-                res.data.items.forEach((item) =>
-                    updatedNews.push({ ...item, liked: false })
-                );
-                this.setState({
-                    news: updatedNews,
-                    loading: false,
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-                this.setState({ loading: true });
-            });
     }
-
+    removePlayer(player) {
+        let updatedSelectedPlayers = [...this.state.selectedPlayers];
+        const isLargeNumber = (element) => element.Name === player.Name;
+        const id = updatedSelectedPlayers.findIndex(isLargeNumber);
+        console.log("id", id);
+        updatedSelectedPlayers.splice(id, 1);
+        this.setState({
+            selectedPlayers: updatedSelectedPlayers,
+        });
+    }
     render() {
-        const { news } = this.state;
         return (
             <div>
                 <div className="App">
                     <header className="App-header">
                         <h1 className="App-title">Let's Play</h1>
                     </header>
-                    <Form getNews={this.getNews} />
-                    {this.state.loading ? (
-                        <Spinner />
-                    ) : this.state.news.length < 1 ? (
-                        <p>News can't be loaded</p>
-                    ) : (
-                        <NewsList
-                            filteredNews={this.state.filteredNews}
-                            news={news}
-                            searchString={this.state.searchString}
-                        />
-                    )}
+                    <Grid container spacing={3}>
+                        <Grid item xs={3}>
+                            <Paper
+                                style={{
+                                    padding: 2,
+                                    textAlign: "center",
+                                    marginTop: 70,
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Players
+                                selectedPlayers={this.state.selectedPlayers}
+                                removePlayer={this.removePlayer}
+                                addPlayer={this.addPlayer}
+                            />
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         );
     }
 }
+export default App;
