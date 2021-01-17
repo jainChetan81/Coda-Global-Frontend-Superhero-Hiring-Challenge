@@ -1,21 +1,40 @@
-import { Grid, Paper } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import MetaPanel from "../components/MetaPanel";
 import Players from "../components/Players";
+import {
+    getFromStorage,
+    setInStorage,
+    removeFromStorage,
+} from "../utils/localStorage";
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = { selectedPlayers: [] };
         this.addPlayer = this.addPlayer.bind(this);
         this.removePlayer = this.removePlayer.bind(this);
+        this.getFromStorage = this.getFromStorage.bind(this);
     }
+    componentDidMount() {
+        this.getFromStorage();
+    }
+
+    getFromStorage() {
+        const storedPlayers = getFromStorage("SelectedPlayers");
+        this.setState({
+            selectedPlayers: storedPlayers,
+        });
+    }
+
     addPlayer(player) {
         console.log("this.state.selectedPlayers", this.state.selectedPlayers);
-        const newList = [...this.state.selectedPlayers, player];
+        const updatedSelectedPlayers = [...this.state.selectedPlayers, player];
         this.setState({
-            selectedPlayers: [...newList],
+            selectedPlayers: [...updatedSelectedPlayers],
         });
+        removeFromStorage("SelectedPlayers");
+        setInStorage("SelectedPlayers", updatedSelectedPlayers);
     }
     removePlayer(player) {
         let updatedSelectedPlayers = [...this.state.selectedPlayers];
@@ -26,6 +45,8 @@ class App extends Component {
         this.setState({
             selectedPlayers: updatedSelectedPlayers,
         });
+        removeFromStorage("SelectedPlayers");
+        setInStorage("SelectedPlayers", updatedSelectedPlayers);
     }
 
     render() {

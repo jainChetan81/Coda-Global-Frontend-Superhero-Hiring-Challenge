@@ -25,11 +25,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const clicked = (history) => {
-    history.push("/");
+    history.push("/OpposingBet");
 };
 
 function MetaPanel({ selectedPlayers, history }) {
-    console.log("history", history);
     const classes = useStyles();
     return (
         <Paper
@@ -41,17 +40,17 @@ function MetaPanel({ selectedPlayers, history }) {
                 marginLeft: 20,
                 position: "fixed",
             }}>
-            Playing {selectedPlayers.length}{" "}
+            Playing {selectedPlayers?.length}{" "}
             <Button
                 type="button"
                 className={
-                    selectedPlayers.length === 9
+                    selectedPlayers?.length === 9
                         ? "btn btn-primary m-0"
                         : "btn btn-secondary"
                 }
                 onClick={() => clicked(history)}
-                disabled={selectedPlayers.length !== 9}>
-                {selectedPlayers.length === 9 ? "Start" : "Select 9"}
+                disabled={selectedPlayers?.length !== 9}>
+                {selectedPlayers?.length === 9 ? "Start" : "Select 9"}
             </Button>
             {selectedPlayers?.map((player) => (
                 <List className={classes.root}>

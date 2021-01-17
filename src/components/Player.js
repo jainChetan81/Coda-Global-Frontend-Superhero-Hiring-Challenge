@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 
 const isSelected = (name, selectedPlayers) => {
     let matching = false;
-    selectedPlayers.forEach((player) => {
+    selectedPlayers?.forEach((player) => {
         if (player.Name === name) matching = true;
     });
     return matching;
