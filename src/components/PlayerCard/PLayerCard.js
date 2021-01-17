@@ -1,7 +1,39 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
+import {
+    getFromStorage,
+    removeFromStorage,
+    setInStorage,
+} from "../../utils/localStorage";
 
 function PlayerCard({ opposingBet, selectedPlayers }) {
+    const [newSelectedPlayers, setNewSelectedPlayers] = useState([
+        ...selectedPlayers,
+    ]);
+
+    const checkForVictory = (player) => {
+        const storedSelectedPlayers = getFromStorage("SelectedPlayers");
+        const storedAllPlayers = getFromStorage("AllPlayers");
+        removeFromStorage("SelectedPlayers");
+        removeFromStorage("AllPlayers");
+        const isLargeNumber = (element) => element.Name === player.Name;
+        const idSelected = storedSelectedPlayers.findIndex(isLargeNumber);
+        const idAll = storedAllPlayers.findIndex(isLargeNumber);
+        storedSelectedPlayers.splice(idSelected, 1);
+        storedAllPlayers.splice(idAll, 1);
+        if (player.Bet === opposingBet.toString()) {
+            player.Wins += 1;
+        }
+        if (player.Bet !== opposingBet.toString()) {
+            player.Lost += 1;
+        }
+        storedSelectedPlayers.splice(idSelected, 0, player);
+        storedAllPlayers.splice(idAll, 0, player);
+        setInStorage("SelectedPlayers", storedSelectedPlayers);
+        setInStorage("AllPlayers", storedAllPlayers);
+        // setNewSelectedPlayers(storedSelectedPlayers);
+        return null;
+    };
     return (
         <Grid
             container
@@ -9,8 +41,9 @@ function PlayerCard({ opposingBet, selectedPlayers }) {
             direction="row"
             justify="center"
             alignItems="baseline">
-            {selectedPlayers?.map((player) => (
+            {newSelectedPlayers?.map((player) => (
                 <Grid item xs key={player.Name}>
+                    {checkForVictory(player)}
                     <div
                         className={`card border border-4 ${
                             player.Bet === opposingBet.toString()

@@ -3,6 +3,11 @@ import axios from "axios";
 import Form from "../components/Form";
 import Spinner from "../components/Spinner/Spinner";
 import Player from "./Player";
+import {
+    getFromStorage,
+    removeFromStorage,
+    setInStorage,
+} from "../utils/localStorage";
 
 class Players extends Component {
     state = {
@@ -36,25 +41,34 @@ class Players extends Component {
 
     getNewsItems() {
         console.log("getNewsItems");
-        axios
-            .get(
-                "https://cors-anywhere.herokuapp.com/https://s3-ap-southeast-1.amazonaws.com/he-public-data/bets7747a43.json"
-            )
-            .then((res) => {
-                let updatedPlayerList = [];
-                console.log("res.data", res.data);
-                res.data.forEach((item) =>
-                    updatedPlayerList.push({ ...item, Wins: 0, Lost: 0 })
-                );
-                this.setState({
-                    playerList: updatedPlayerList,
-                    loading: false,
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-                this.setState({ loading: true });
+        const storedPlayers = getFromStorage("AllPlayers");
+        if (storedPlayers?.length === 30)
+            this.setState({
+                playerList: storedPlayers,
+                loading: false,
             });
+        if (storedPlayers?.length !== 30)
+            axios
+                .get(
+                    "https://cors-anywhere.herokuapp.com/https://s3-ap-southeast-1.amazonaws.com/he-public-data/bets7747a43.json"
+                )
+                .then((res) => {
+                    let updatedPlayerList = [];
+                    console.log("res.data", res.data);
+                    res.data.forEach((item) =>
+                        updatedPlayerList.push({ ...item, Wins: 0, Lost: 0 })
+                    );
+                    this.setState({
+                        playerList: updatedPlayerList,
+                        loading: false,
+                    });
+                    removeFromStorage("AllPlayers");
+                    setInStorage("AllPlayers", updatedPlayerList);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.setState({ loading: true });
+                });
     }
     render() {
         const { playerList, filteredPlayerList, searchString } = this.state;

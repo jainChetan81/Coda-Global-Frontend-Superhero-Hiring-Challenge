@@ -5,6 +5,7 @@ import PLayerCard from "../components/PlayerCard/PlayerCard";
 
 class OpposingBet extends Component {
     state = { selectedPlayers: [], opposingBet: null };
+
     componentDidMount() {
         this.getFromStorage();
         let num = Math.round(Math.random() * 10) + 1;
@@ -21,7 +22,7 @@ class OpposingBet extends Component {
     }
 
     render() {
-        const { selectedPlayers } = this.state;
+        const { selectedPlayers, opposingBet } = this.state;
         if (selectedPlayers.length !== 9)
             return (
                 <h3 className="text-center">
@@ -33,8 +34,8 @@ class OpposingBet extends Component {
             <div>
                 <h3>Welcome! The Opposing Bet is {this.state.opposingBet}</h3>
                 <PLayerCard
-                    opposingBet={this.state.opposingBet}
-                    selectedPlayers={this.state.selectedPlayers}
+                    opposingBet={opposingBet}
+                    selectedPlayers={selectedPlayers}
                 />
             </div>
         );

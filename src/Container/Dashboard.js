@@ -22,9 +22,10 @@ class App extends Component {
 
     getFromStorage() {
         const storedPlayers = getFromStorage("SelectedPlayers");
-        this.setState({
-            selectedPlayers: storedPlayers,
-        });
+        if (storedPlayers?.length > 0)
+            this.setState({
+                selectedPlayers: storedPlayers,
+            });
     }
 
     addPlayer(player) {
