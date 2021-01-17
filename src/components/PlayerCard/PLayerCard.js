@@ -23,9 +23,11 @@ function PlayerCard({ opposingBet, selectedPlayers }) {
         storedAllPlayers.splice(idAll, 1);
         if (player.Bet === opposingBet.toString()) {
             player.Wins += 1;
+            player.Price = player.Price + 100;
         }
         if (player.Bet !== opposingBet.toString()) {
             player.Lost += 1;
+            player.Price = player.Price - 100;
         }
         storedSelectedPlayers.splice(idSelected, 0, player);
         storedAllPlayers.splice(idAll, 0, player);

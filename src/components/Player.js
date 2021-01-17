@@ -7,6 +7,12 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import MuiAlert from "@material-ui/lab/Alert";
 import TableRow from "@material-ui/core/TableRow";
+import CakeIcon from "@material-ui/icons/Cake";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import DnsIcon from "@material-ui/icons/Dns";
+import FaceIcon from "@material-ui/icons/Face";
+import CheckIcon from "@material-ui/icons/Check";
 import Paper from "@material-ui/core/Paper";
 import { Snackbar } from "@material-ui/core";
 
@@ -56,9 +62,6 @@ export default function Player({
 }) {
     const [open, setOpen] = React.useState(false);
     const [players, setPlayers] = useState([...playerList]);
-    const handleClick = () => {
-        setOpen(true);
-    };
 
     const handleClose = (event, reason) => {
         if (reason === "clickaway") {
@@ -91,14 +94,29 @@ export default function Player({
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell align="left">Select</StyledTableCell>
-                        <StyledTableCell>Player Name</StyledTableCell>
+                        <StyledTableCell align="left">
+                            <CheckIcon />
+                            Select
+                        </StyledTableCell>
+                        <StyledTableCell>
+                            <DnsIcon /> Player Name
+                        </StyledTableCell>
                         <StyledTableCell align="right">Fate</StyledTableCell>
-                        <StyledTableCell align="right">Avatar</StyledTableCell>
+                        <StyledTableCell align="right">
+                            <FaceIcon /> Avatar
+                        </StyledTableCell>
                         <StyledTableCell align="right">Bet</StyledTableCell>
-                        <StyledTableCell align="right">Wins</StyledTableCell>
-                        <StyledTableCell align="right">Lost</StyledTableCell>
-                        <StyledTableCell align="right">Price</StyledTableCell>
+                        <StyledTableCell align="right">
+                            <CakeIcon /> Wins
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                            {" "}
+                            <HighlightOffIcon /> Lost
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                            <AttachMoneyIcon />
+                            Price
+                        </StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -107,7 +125,11 @@ export default function Player({
                             <StyledTableCell align="left">
                                 <button
                                     type="button"
-                                    className="btn btn-primary"
+                                    className={`btn btn-${
+                                        isSelected(player.Name, selectedPlayers)
+                                            ? "success"
+                                            : "primary"
+                                    }`}
                                     onClick={() => {
                                         isSelected(player.Name, selectedPlayers)
                                             ? removePlayer(player)
@@ -147,7 +169,7 @@ export default function Player({
                         </StyledTableRow>
                     ))}
                 </TableBody>
-                return (
+
                 <Snackbar
                     open={open}
                     autoHideDuration={6000}
@@ -156,7 +178,6 @@ export default function Player({
                         You have selected 9 players
                     </Alert>
                 </Snackbar>
-                );
             </Table>
         </TableContainer>
     );
