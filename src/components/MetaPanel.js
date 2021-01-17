@@ -1,4 +1,4 @@
-import { Button, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -41,7 +41,7 @@ function MetaPanel({ selectedPlayers, history }) {
                 position: "fixed",
             }}>
             Playing {selectedPlayers?.length}{" "}
-            <Button
+            <button
                 type="button"
                 className={
                     selectedPlayers?.length === 9
@@ -51,9 +51,9 @@ function MetaPanel({ selectedPlayers, history }) {
                 onClick={() => clicked(history)}
                 disabled={selectedPlayers?.length !== 9}>
                 {selectedPlayers?.length === 9 ? "Start" : "Select 9"}
-            </Button>
+            </button>
             {selectedPlayers?.map((player) => (
-                <List className={classes.root}>
+                <List className={classes.root} key={player.Name}>
                     <ListItem>
                         <ListItemAvatar>
                             <Avatar

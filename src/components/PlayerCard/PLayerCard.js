@@ -1,31 +1,53 @@
+import { Grid } from "@material-ui/core";
 import React from "react";
 
-export default function NewsCard(props) {
-    const image = `https://source.unsplash.com/300x2${props.index + 10}`;
+function PlayerCard({ opposingBet, selectedPlayers }) {
     return (
-        <div className="col-md-4" style={{ marginBottom: "2rem" }}>
-            <div className="newss__box">
-                <img
-                    className="newss__box-img"
-                    src={image}
-                    alt={`300x2${props.index + 10}`}
-                />
-                <div className="news__text">
-                    <h5 className="newss__title">
-                        {props.item.item.headline[0].length < 20
-                            ? `${props.item.item.headline[0]}`
-                            : `${props.item.item.headline[0].substring(
-                                  0,
-                                  55
-                              )}...`}
-                    </h5>
-                    <p className="newss__subtitle">
-                        Publisher :{" "}
-                        <span>{props.item.story["author-name"]}</span>
-                    </p>
-                </div>
-                <span className="videoSidebar__button"></span>
-            </div>
-        </div>
+        <Grid
+            container
+            spacing={4}
+            direction="row"
+            justify="center"
+            alignItems="baseline">
+            {selectedPlayers?.map((player) => (
+                <Grid item xs key={player.Name}>
+                    <div
+                        className={`card border border-4 ${
+                            player.Bet === opposingBet.toString()
+                                ? "border-success"
+                                : "border-danger"
+                        }`}
+                        style={{ width: "14rem", height: "20rem" }}>
+                        <img
+                            src={player["Profile Image"]}
+                            style={{ height: 150 }}
+                            className="card-img-top p-1"
+                            alt={player.Name}
+                        />
+                        <div className="card-body">
+                            <h5 className="card-title">{player.Name}</h5>
+                            <p className="card-text">
+                                {`Price: ${player.Price} Bet: ${player.Bet}`}
+                                <br />
+                                {`Wins: ${player.Wins}`}
+                            </p>
+                            <p
+                                className={`lead text-center ${
+                                    player.Bet === opposingBet.toString()
+                                        ? "bg-success"
+                                        : "bg-danger"
+                                }`}>
+                                <b>
+                                    {player.Bet === opposingBet.toString()
+                                        ? "Winner"
+                                        : "Lose"}
+                                </b>
+                            </p>
+                        </div>
+                    </div>
+                </Grid>
+            ))}
+        </Grid>
     );
 }
+export default PlayerCard;

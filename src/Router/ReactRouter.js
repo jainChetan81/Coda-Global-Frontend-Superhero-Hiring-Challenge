@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import NotFound from "../Container/NotFound.js";
 import routes from "./routes.js"; //TODO: this is bringing different routes in routes.js and sent to index.js
 
@@ -24,7 +24,6 @@ class ReactRouter extends Component {
         return (
             <Switch>
                 {this.getRoutes(routes)}
-                {/* <Redirect to="/" /> */}
                 <Route component={NotFound} />
             </Switch>
         );

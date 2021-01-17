@@ -28,7 +28,6 @@ class App extends Component {
     }
 
     addPlayer(player) {
-        console.log("this.state.selectedPlayers", this.state.selectedPlayers);
         const updatedSelectedPlayers = [...this.state.selectedPlayers, player];
         this.setState({
             selectedPlayers: [...updatedSelectedPlayers],
@@ -53,27 +52,25 @@ class App extends Component {
         const { selectedPlayers } = this.state;
 
         return (
-            <div>
-                <div className="App">
-                    <header className="App-header sticky-top">
-                        <h1 className="App-title">Let's Play</h1>
-                    </header>
-                    <Grid container>
-                        <Grid item xs={3}>
-                            <MetaPanel
-                                history={this.props.history}
-                                selectedPlayers={selectedPlayers}
-                            />
-                        </Grid>
-                        <Grid item xs={9}>
-                            <Players
-                                selectedPlayers={selectedPlayers}
-                                removePlayer={this.removePlayer}
-                                addPlayer={this.addPlayer}
-                            />
-                        </Grid>
+            <div className="App">
+                <header className="App-header sticky-top">
+                    <h1 className="App-title">Let's Play (Select 9 Players)</h1>
+                </header>
+                <Grid container>
+                    <Grid item xs={3}>
+                        <MetaPanel
+                            history={this.props.history}
+                            selectedPlayers={selectedPlayers}
+                        />
                     </Grid>
-                </div>
+                    <Grid item xs={9}>
+                        <Players
+                            selectedPlayers={selectedPlayers}
+                            removePlayer={this.removePlayer}
+                            addPlayer={this.addPlayer}
+                        />
+                    </Grid>
+                </Grid>
             </div>
         );
     }
