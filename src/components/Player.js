@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
+import MuiAlert from "@material-ui/lab/Alert";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { Snackbar } from "@material-ui/core";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -32,6 +34,10 @@ const useStyles = makeStyles({
     },
 });
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const isSelected = (name, selectedPlayers) => {
     let matching = false;
     selectedPlayers?.forEach((player) => {
@@ -48,8 +54,34 @@ export default function Player({
     removePlayer,
     addPlayer,
 }) {
+    const [open, setOpen] = React.useState(false);
+    const [players, setPlayers] = useState([...playerList]);
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const determineFate = (player) => {
+        const loss = player.Lost;
+        const wins = player.Wins;
+        const probability = 1 / 9 + loss / 9 - wins / 9;
+        return "1 / 9";
+    };
+
+    const addPlayerInList = (player) => {
+        if (selectedPlayers.length >= 9) setOpen(true);
+        else addPlayer(player);
+    };
+
     const classes = useStyles();
-    let list = [...playerList];
+    let list = [...players];
     if (searchString !== "") list = [...filteredPlayerList];
     if (searchString !== "" && filteredPlayerList.length < 1)
         return <h3>No Player by name {searchString}</h3>;
@@ -61,7 +93,7 @@ export default function Player({
                     <TableRow>
                         <StyledTableCell align="left">Select</StyledTableCell>
                         <StyledTableCell>Player Name</StyledTableCell>
-                        <StyledTableCell align="right">Level</StyledTableCell>
+                        <StyledTableCell align="right">Fate</StyledTableCell>
                         <StyledTableCell align="right">Avatar</StyledTableCell>
                         <StyledTableCell align="right">Bet</StyledTableCell>
                         <StyledTableCell align="right">Wins</StyledTableCell>
@@ -79,7 +111,7 @@ export default function Player({
                                     onClick={() => {
                                         isSelected(player.Name, selectedPlayers)
                                             ? removePlayer(player)
-                                            : addPlayer(player);
+                                            : addPlayerInList(player);
                                     }}>
                                     {isSelected(player.Name, selectedPlayers)
                                         ? "Selected"
@@ -90,7 +122,7 @@ export default function Player({
                                 {player.Name}
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                {player.calories}
+                                {determineFate(player)}
                             </StyledTableCell>
                             <StyledTableCell align="right">
                                 <img
@@ -115,6 +147,16 @@ export default function Player({
                         </StyledTableRow>
                     ))}
                 </TableBody>
+                return (
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
+                        You have selected 9 players
+                    </Alert>
+                </Snackbar>
+                );
             </Table>
         </TableContainer>
     );

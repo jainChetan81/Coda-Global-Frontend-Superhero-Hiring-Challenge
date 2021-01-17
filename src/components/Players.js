@@ -56,7 +56,12 @@ class Players extends Component {
                     let updatedPlayerList = [];
                     console.log("res.data", res.data);
                     res.data.forEach((item) =>
-                        updatedPlayerList.push({ ...item, Wins: 0, Lost: 0 })
+                        updatedPlayerList.push({
+                            ...item,
+                            Wins: 0,
+                            Lost: 0,
+                            Fate: 0,
+                        })
                     );
                     this.setState({
                         playerList: updatedPlayerList,

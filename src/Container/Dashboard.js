@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Snackbar } from "@material-ui/core";
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import MetaPanel from "../components/MetaPanel";
