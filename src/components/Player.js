@@ -61,7 +61,7 @@ export default function Player({
     addPlayer,
 }) {
     const [open, setOpen] = React.useState(false);
-    const [players, setPlayers] = useState([...playerList]);
+    const [players] = useState([...playerList]);
 
     const handleClose = (event, reason) => {
         if (reason === "clickaway") {
@@ -72,9 +72,9 @@ export default function Player({
     };
 
     const determineFate = (player) => {
-        const loss = player.Lost;
-        const wins = player.Wins;
-        const probability = 1 / 9 + loss / 9 - wins / 9;
+        // const loss = player.Lost;
+        // const wins = player.Wins;
+        // const probability = 1 / 9 + loss / 9 - wins / 9;
         return "1 / 9";
     };
 

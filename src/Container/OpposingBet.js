@@ -50,7 +50,7 @@ class OpposingBet extends Component {
             bet = true;
             price = false;
         }
-        let order = asc ? "asc" : "desc";
+        // let order = asc ? "asc" : "desc";
         let key = price ? "Price" : "Bet";
         console.log("key", key, updatedSelectedPlayers[0][key]);
         if (price && asc) {
