@@ -1,5 +1,7 @@
 import { Grid, Paper } from "@material-ui/core";
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import MetaPanel from "../components/MetaPanel";
 import Players from "../components/Players";
 class App extends Component {
     constructor(props) {
@@ -25,26 +27,26 @@ class App extends Component {
             selectedPlayers: updatedSelectedPlayers,
         });
     }
+
     render() {
+        const { selectedPlayers } = this.state;
+
         return (
             <div>
                 <div className="App">
-                    <header className="App-header">
+                    <header className="App-header sticky-top">
                         <h1 className="App-title">Let's Play</h1>
                     </header>
-                    <Grid container spacing={3}>
+                    <Grid container>
                         <Grid item xs={3}>
-                            <Paper
-                                style={{
-                                    padding: 2,
-                                    textAlign: "center",
-                                    marginTop: 70,
-                                }}
+                            <MetaPanel
+                                history={this.props.history}
+                                selectedPlayers={selectedPlayers}
                             />
                         </Grid>
                         <Grid item xs={9}>
                             <Players
-                                selectedPlayers={this.state.selectedPlayers}
+                                selectedPlayers={selectedPlayers}
                                 removePlayer={this.removePlayer}
                                 addPlayer={this.addPlayer}
                             />
@@ -55,4 +57,4 @@ class App extends Component {
         );
     }
 }
-export default App;
+export default withRouter(App);
